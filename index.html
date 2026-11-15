@@ -1,1 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTRA — Astronaut Health Monitoring</title>
 
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#050811;
+    --panel:#0b1220;
+    --panel2:#0e1728;
+    --line:rgba(120,180,255,.15);
+    --text:#eef6ff;
+    --muted:#8ea3bd;
+    --cyan:#4fdcff;
+    --blue:#4f8cff;
+    --green:#48e0a4;
+    --yellow:#f6c85f;
+    --red:#ff6878;
+}
+
+body{
+    min-height:100vh;
+    font-family:Inter,Arial,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(circle at 50% 0%,rgba(37,91,170,.22),transparent 38%),
+      linear-gradient(180deg,#04070e 0%,#07101d 55%,#03060c 100%);
+    overflow-x:hidden;
+}
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.22;
+    background-image:
+      radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1px);
+    background-size:47px 47px;
+    mask-image:linear-gradient(to bottom,black,transparent 80%);
+}
+
+/* APP */
+.app{
+    width:min(100%,1100px);
+    margin:auto;
+    padding:20px;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:16px 0 24px;
+    border-bottom:1px solid var(--line);
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo{
+    width:42px;
+    height:42px;
+    border:1px solid rgba(79,220,255,.5);
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    color:var(--cyan);
+    font-weight:800;
+    box-shadow:0 0 30px rgba(79,220,255,.12);
+}
+
+.brand h1{
+    font-size:22px;
+    letter-spacing:3px;
+}
+
+.brand p{
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:1.5px;
+    margin-top:3px;
+}
+
+.mission{
+    text-align:right;
+}
+
+.mission span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:1.5px;
+}
+
+.mission strong{
+    color:var(--cyan);
+    font-size:12px;
+}
+
+/* STATUS */
+.statusbar{
+    margin:18px 0;
+    padding:12px 15px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:rgba(10,18,32,.7);
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.status-item{
+    font-size:10px;
+    color:var(--muted);
+}
+
+.status-item b{
+    color:var(--text);
+    margin-left:5px;
+}
+
+.live{
+    color:var(--green)!important;
+}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:18px;
+}
+
+/* CARDS */
+.card{
+    background:linear-gradient(145deg,rgba(13,24,43,.92),rgba(7,13,24,.92));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 15px 50px rgba(0,0,0,.25);
+}
+
+.card-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.card-title span{
+    font-size:10px;
+    color:var(--muted);
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+}
+
+.card-title b{
+    font-size:11px;
+    color:var(--cyan);
+}
+
+/* HEALTH */
+.health-card{
+    position:relative;
+    overflow:hidden;
+}
+
+.health-card:after{
+    content:"";
+    position:absolute;
+    width:190px;
+    height:190px;
+    right:-90px;
+    top:-90px;
+    background:radial-gradient(circle,rgba(79,140,255,.2),transparent 65%);
+}
+
+.health-main{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.score-ring{
+    width:145px;
+    height:145px;
+    flex:0 0 145px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:
+      radial-gradient(circle at center,#09101d 58%,transparent 59%),
+      conic-gradient(var(--cyan) 0 78%,rgba(79,220,255,.08) 78% 100%);
+    box-shadow:0 0 45px rgba(79,220,255,.12);
+}
+
+.score{
+    text-align:center;
+}
+
+.score strong{
+    font-size:42px;
+    line-height:1;
+}
+
+.score small{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    margin-top:5px;
+}
+
+.health-info h2{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.stable{
+    color:var(--green);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.5px;
+}
+
+.health-info p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.6;
+    margin-top:12px;
+}
+
+/* VITALS */
+.vitals{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.vital{
+    padding:15px;
+    border:1px solid var(--line);
+    border-radius:13px;
+    background:rgba(5,12,24,.6);
+}
+
+.vital .icon{
+    font-size:17px;
+    margin-bottom:10px;
+}
+
+.vital label{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.vital strong{
+    display:block;
+    font-size:19px;
+    margin-top:4px;
+}
+
+.vital small{
+    color:var(--green);
+    font-size:9px;
+}
+
+/* ASTRONAUT */
+.astronaut{
+    min-height:410px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.body-figure{
+    position:relative;
+    width:155px;
+    height:275px;
+    margin:10px auto;
+}
+
+.head{
+    width:72px;
+    height:72px;
+    border-radius:50%;
+    border:3px solid #b9d8ef;
+    position:absolute;
+    top:0;
+    left:41px;
+    background:radial-gradient(circle at 45% 35%,#1c3954,#07111d 65%);
+    box-shadow:0 0 30px rgba(79,220,255,.18);
+    cursor:pointer;
+}
+
+.visor{
+    position:absolute;
+    width:54px;
+    height:38px;
+    left:6px;
+    top:12px;
+    border-radius:50%;
+    border:1px solid rgba(100,220,255,.7);
+    background:linear-gradient(135deg,#173d5c,#06101d);
+}
+
+.torso{
+    position:absolute;
+    width:82px;
+    height:115px;
+    left:36px;
+    top:66px;
+    border:2px solid #b8d5e9;
+    border-radius:28px 28px 18px 18px;
+    background:linear-gradient(135deg,#13283b,#07101b);
+    cursor:pointer;
+}
+
+.life{
+    position:absolute;
+    left:22px;
+    top:30px;
+    width:38px;
+    height:48px;
+    border:1px solid rgba(79,220,255,.5);
+    border-radius:8px;
+    display:grid;
+    place-items:center;
+    color:var(--cyan);
+    font-size:10px;
+}
+
+.arm{
+    position:absolute;
+    width:23px;
+    height:105px;
+    top:73px;
+    border:2px solid #9bb8cc;
+    border-radius:20px;
+    background:#0c1b2a;
+    cursor:pointer;
+}
+
+.arm.left{left:12px;transform:rotate(9deg);}
+.arm.right{right:12px;transform:rotate(-9deg);}
+
+.leg{
+    position:absolute;
+    width:29px;
+    height:100px;
+    top:173px;
+    border:2px solid #9bb8cc;
+    border-radius:16px;
+    background:#0c1b2a;
+}
+
+.leg.left{left:42px;}
+.leg.right{right:42px;}
+
+.body-note{
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:1.2px;
+    text-align:center;
+    margin-top:8px;
+}
+
+/* TREND */
+.chart{
+    height:180px;
+    position:relative;
+    margin-top:8px;
+    border-left:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+}
+
+.gridline{
+    position:absolute;
+    left:0;
+    right:0;
+    border-top:1px dashed rgba(120,180,255,.08);
+}
+
+.g1{top:25%}
+.g2{top:50%}
+.g3{top:75%}
+
+.line{
+    position:absolute;
+    inset:0;
+}
+
+.line svg{
+    width:100%;
+    height:100%;
+}
+
+.chart-labels{
+    display:flex;
+    justify-content:space-between;
+    color:var(--muted);
+    font-size:8px;
+    margin-top:7px;
+}
+
+/* ALERT */
+.alert{
+    border:1px solid rgba(246,200,95,.25);
+    background:rgba(246,200,95,.05);
+}
+
+.alert .card-title b{
+    color:var(--yellow);
+}
+
+.alert p{
+    color:#bdc9d8;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.action{
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:10px;
+    background:rgba(79,220,255,.06);
+    border:1px solid rgba(79,220,255,.15);
+    color:var(--cyan);
+    font-size:10px;
+}
+
+/* BUTTON */
+button{
+    border:1px solid rgba(79,220,255,.35);
+    background:linear-gradient(135deg,rgba(79,140,255,.18),rgba(79,220,255,.08));
+    color:var(--text);
+    padding:11px 16px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:10px;
+    letter-spacing:.7px;
+}
+
+button:hover{
+    border-color:var(--cyan);
+    box-shadow:0 0 25px rgba(79,220,255,.12);
+}
+
+/* FOOTER */
+footer{
+    margin-top:20px;
+    padding:15px 0 25px;
+    text-align:center;
+    color:#52657c;
+    font-size:8px;
+    letter-spacing:1px;
+}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+    .app{padding:14px;}
+    header{padding-top:10px;}
+    .brand h1{font-size:19px;}
+    .grid{grid-template-columns:1fr;}
+    .health-main{align-items:flex-start;}
+    .score-ring{
+        width:120px;
+        height:120px;
+        flex-basis:120px;
+    }
+    .score strong{font-size:34px;}
+}
+
+@media(max-width:430px){
+    .mission strong{font-size:10px;}
+    .health-main{gap:15px;}
+    .score-ring{
+        width:105px;
+        height:105px;
+        flex-basis:105px;
+    }
+    .score strong{font-size:30px;}
+    .health-info h2{font-size:17px;}
+    .vitals{gap:7px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+    <div class="brand">
+        <div class="logo">A</div>
+        <div>
+            <h1>ASTRA</h1>
+            <p>ASTRONAUT HEALTH MONITORING</p>
+        </div>
+    </div>
+
+    <div class="mission">
+        <span>MISSION</span>
+        <strong>MARS TRANSIT</strong>
+    </div>
+</header>
+
+<div class="statusbar">
+    <div class="status-item">
+        MISSION DAY <b>47 / 210</b>
+    </div>
+
+    <div class="status-item">
+        SYSTEM <b class="live">● NOMINAL</b>
+    </div>
+
+    <div class="status-item">
+        DATA <b>SIMULATED</b>
+    </div>
+</div>
+
+<div class="grid">
+
+<!-- HEALTH SCORE -->
+<section class="card health-card">
+
+    <div class="card-title">
+        <span>Overall Mission Health</span>
+        <b>LIVE ASSESSMENT</b>
+    </div>
+
+    <div class="health-main">
+
+        <div class="score-ring">
+            <div class="score">
+                <strong>78</strong>
+                <small>/ 100</small>
+            </div>
+        </div>
+
+        <div class="health-info">
+            <h2>Stable</h2>
+            <div class="stable">● WITHIN MONITORING RANGE</div>
+
+            <p>
+                Current indicators remain generally stable.
+                Recovery requires continued observation.
+            </p>
+
+            <button onclick="assessHealth()">
+                ASSESS HEALTH
+            </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- VITALS -->
+<section class="card">
+
+    <div class="card-title">
+        <span>Primary Health Indicators</span>
+        <b>5 SIGNALS</b>
+    </div>
+
+    <div class="vitals">
+
+        <div class="vital">
+            <div class="icon">♥</div>
+            <label>Heart Rate</label>
+            <strong id="hr">82 BPM</strong>
+            <small>+4% baseline</small>
+        </div>
+
+        <div class="vital">
+            <div class="icon">◈</div>
+            <label>Blood Pressure</label>
+            <strong>118/76</strong>
+            <small>Stable</small>
+        </div>
+
+        <div class="vital">
+            <div class="icon">°</div>
+            <label>Temperature</label>
+            <strong>36.7°C</strong>
+            <small>Stable</small>
+        </div>
+
+        <div class="vital">
+            <div class="icon">◒</div>
+            <label>Sleep</label>
+            <strong id="sleep">6.2 h</strong>
+            <small>Monitor recovery</small>
+        </div>
+
+    </div>
+</section>
+
+<!-- ASTRONAUT -->
+<section class="card astronaut">
+
+    <div class="card-title" style="width:100%">
+        <span>Human Health Map</span>
+        <b>INTERACTIVE</b>
+    </div>
+
+    <div class="body-figure">
+
+        <div class="head" onclick="showZone('Mental & Mood')">
+            <div class="visor"></div>
+        </div>
+
+        <div class="arm left" onclick="showZone('Blood Pressure')"></div>
+
+        <div class="torso" onclick="showZone('Cardiovascular')">
+            <div class="life">HR</div>
+        </div>
+
+        <div class="arm right" onclick="showZone('Blood Pressure')"></div>
+
+        <div class="leg left"></div>
+        <div class="leg right"></div>
+
+    </div>
+
+    <div class="body-note">
+        TAP A BODY REGION TO INSPECT HEALTH STATUS
+    </div>
+
+</section>
+
+<!-- TREND -->
+<section class="card">
+
+    <div class="card-title">
+        <span>Health Trend</span>
+        <b>LAST 7 DAYS</b>
+    </div>
+
+    <div class="chart">
+
+        <div class="gridline g1"></div>
+        <div class="gridline g2"></div>
+        <div class="gridline g3"></div>
+
+        <div class="line">
+            <svg viewBox="0 0 500 180" preserveAspectRatio="none">
+
+                <defs>
+                    <linearGradient id="trend" x1="0" x2="1">
+                        <stop offset="0%" stop-color="#4fdcff"/>
+                        <stop offset="100%" stop-color="#4f8cff"/>
+                    </linearGradient>
+                </defs>
+
+                <polyline
+                    points="0,120 70,112 140,125 210,90 280,98 350,68 420,78 500,55"
+                    fill="none"
+                    stroke="url(#trend)"
+                    stroke-width="3"
+                    vector-effect="non-scaling-stroke"
+                />
+
+                <polyline
+                    points="0,120 70,112 140,125 210,90 280,98 350,68 420,78 500,55 500,180 0,180"
+                    fill="url(#trend)"
+                    opacity=".05"
+                    stroke="none"
+                />
+
+            </svg>
+        </div>
+
+    </div>
+
+    <div class="chart-labels">
+        <span>D-7</span>
+        <span>D-6</span>
+        <span>D-5</span>
+        <span>D-4</span>
+        <span>D-3</span>
+        <span>D-2</span>
+        <span>NOW</span>
+    </div>
+
+</section>
+
+<!-- ALERT -->
+<section class="card alert">
+
+    <div class="card-title">
+        <span>Mission Health Alert</span>
+        <b>ATTENTION</b>
+    </div>
+
+    <p id="alertText">
+        Recent sleep duration is below the current mission
+        recovery baseline. Continued monitoring is recommended.
+    </p>
+
+    <div class="action">
+        NEXT ACTION → Complete recovery activity and reassess vitals.
+    </div>
+
+</section>
+
+</div>
+
+<footer>
+    ASTRA · HEALTH MONITORING PROTOTYPE · SIMULATED DATA
+    <br><br>
+    Inspired by NASA Human Research Program resources.
+</footer>
+
+</div>
+
+<script>
+
+function assessHealth(){
+
+    const button = event.target;
+
+    button.textContent = "ASSESSING...";
+
+    setTimeout(() => {
+
+        button.textContent = "ASSESSMENT COMPLETE";
+
+        document.getElementById("alertText").innerHTML =
+        "Assessment complete. Current simulated indicators remain generally stable, with recovery requiring continued observation.";
+
+    },900);
+}
+
+function showZone(zone){
+
+    const message = {
+        "Mental & Mood":
+        "Mental & Mood: monitor mood, sleep quality and behavioral changes during prolonged isolation.",
+
+        "Cardiovascular":
+        "Cardiovascular: heart rate and related trends should be monitored over time.",
+
+        "Blood Pressure":
+        "Blood Pressure: track readings against the astronaut's recent mission baseline."
+    };
+
+    document.getElementById("alertText").textContent = message[zone];
+
+    window.scrollTo({
+        top:document.body.scrollHeight,
+        behavior:"smooth"
+    });
+}
+
+</script>
+
+</body>
+  </html>
