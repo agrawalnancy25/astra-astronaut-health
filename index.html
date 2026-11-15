@@ -7,500 +7,659 @@
 
 <style>
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 :root{
-    --bg:#050811;
-    --panel:#0b1220;
-    --panel2:#0e1728;
-    --line:rgba(120,180,255,.15);
-    --text:#eef6ff;
-    --muted:#8ea3bd;
-    --cyan:#4fdcff;
-    --blue:#4f8cff;
-    --green:#48e0a4;
-    --yellow:#f6c85f;
-    --red:#ff6878;
+  --bg:#030812;
+  --panel:#081321;
+  --panel2:#0c1b2d;
+  --line:rgba(104,190,255,.18);
+  --cyan:#48d9ff;
+  --blue:#4d8dff;
+  --green:#45e0a0;
+  --yellow:#f5c85b;
+  --red:#ff647c;
+  --text:#edf7ff;
+  --muted:#7890a8;
 }
 
 body{
-    min-height:100vh;
-    font-family:Inter,Arial,sans-serif;
-    color:var(--text);
-    background:
-      radial-gradient(circle at 50% 0%,rgba(37,91,170,.22),transparent 38%),
-      linear-gradient(180deg,#04070e 0%,#07101d 55%,#03060c 100%);
-    overflow-x:hidden;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(30,90,160,.20),transparent 38%),
+    linear-gradient(180deg,#020711,#06101d 55%,#020711);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
 }
 
 body:before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    opacity:.22;
-    background-image:
-      radial-gradient(circle,rgba(255,255,255,.8) 1px,transparent 1px);
-    background-size:47px 47px;
-    mask-image:linear-gradient(to bottom,black,transparent 80%);
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+
+button,input{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
 }
 
 /* APP */
+
 .app{
-    width:min(100%,1100px);
-    margin:auto;
-    padding:20px;
+  width:min(1180px,100%);
+  margin:auto;
+  padding:22px 18px 50px;
+  position:relative;
+  z-index:1;
 }
 
 /* HEADER */
+
 header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:16px 0 24px;
-    border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
 }
 
 .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .logo{
-    width:42px;
-    height:42px;
-    border:1px solid rgba(79,220,255,.5);
-    border-radius:13px;
-    display:grid;
-    place-items:center;
-    color:var(--cyan);
-    font-weight:800;
-    box-shadow:0 0 30px rgba(79,220,255,.12);
+  width:42px;
+  height:42px;
+  border:1px solid rgba(72,217,255,.6);
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
+  font-weight:800;
+  font-size:18px;
+  box-shadow:0 0 25px rgba(72,217,255,.12);
 }
 
 .brand h1{
-    font-size:22px;
-    letter-spacing:3px;
+  font-size:18px;
+  letter-spacing:4px;
 }
 
 .brand p{
-    font-size:10px;
-    color:var(--muted);
-    letter-spacing:1.5px;
-    margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:2px;
+  margin-top:3px;
 }
 
 .mission{
-    text-align:right;
+  text-align:right;
 }
 
 .mission span{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-    letter-spacing:1.5px;
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:2px;
 }
 
 .mission strong{
-    color:var(--cyan);
-    font-size:12px;
+  color:var(--cyan);
+  font-size:11px;
+  letter-spacing:1px;
 }
 
-/* STATUS */
+/* STATUS BAR */
+
 .statusbar{
-    margin:18px 0;
-    padding:12px 15px;
-    border:1px solid var(--line);
-    border-radius:12px;
-    background:rgba(10,18,32,.7);
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:15px 0;
 }
 
-.status-item{
-    font-size:10px;
-    color:var(--muted);
+.status{
+  border:1px solid var(--line);
+  background:rgba(7,18,31,.7);
+  border-radius:10px;
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.status-item b{
-    color:var(--text);
-    margin-left:5px;
+.status small{
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1.5px;
 }
 
-.live{
-    color:var(--green)!important;
+.status b{
+  font-size:10px;
+}
+
+.nominal{
+  color:var(--green);
 }
 
 /* GRID */
+
 .grid{
-    display:grid;
-    grid-template-columns:1.1fr .9fr;
-    gap:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
-/* CARDS */
 .card{
-    background:linear-gradient(145deg,rgba(13,24,43,.92),rgba(7,13,24,.92));
-    border:1px solid var(--line);
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 15px 50px rgba(0,0,0,.25);
+  background:
+    linear-gradient(145deg,rgba(12,29,49,.95),rgba(4,13,25,.95));
+  border:1px solid var(--line);
+  border-radius:17px;
+  overflow:hidden;
+  box-shadow:0 15px 50px rgba(0,0,0,.22);
 }
 
-.card-title{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
+.card-head{
+  padding:16px 18px 10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.card-title span{
-    font-size:10px;
-    color:var(--muted);
-    letter-spacing:1.8px;
-    text-transform:uppercase;
+.card-head span:first-child{
+  font-size:9px;
+  color:#7891aa;
+  letter-spacing:2px;
 }
 
-.card-title b{
-    font-size:11px;
-    color:var(--cyan);
+.tag{
+  color:var(--cyan);
+  font-size:8px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
-/* HEALTH */
-.health-card{
-    position:relative;
-    overflow:hidden;
+.card-body{
+  padding:12px 18px 20px;
 }
 
-.health-card:after{
-    content:"";
-    position:absolute;
-    width:190px;
-    height:190px;
-    right:-90px;
-    top:-90px;
-    background:radial-gradient(circle,rgba(79,140,255,.2),transparent 65%);
+/* HEALTH SCORE */
+
+.score-layout{
+  display:flex;
+  align-items:center;
+  gap:25px;
 }
 
-.health-main{
-    display:flex;
-    align-items:center;
-    gap:25px;
+.ring{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:
+    conic-gradient(var(--cyan) var(--score),rgba(40,80,115,.22) 0);
+  position:relative;
+  flex-shrink:0;
+  box-shadow:0 0 35px rgba(72,217,255,.10);
 }
 
-.score-ring{
-    width:145px;
-    height:145px;
-    flex:0 0 145px;
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    background:
-      radial-gradient(circle at center,#09101d 58%,transparent 59%),
-      conic-gradient(var(--cyan) 0 78%,rgba(79,220,255,.08) 78% 100%);
-    box-shadow:0 0 45px rgba(79,220,255,.12);
+.ring:before{
+  content:"";
+  position:absolute;
+  inset:9px;
+  border-radius:50%;
+  background:#071321;
 }
 
 .score{
-    text-align:center;
+  position:relative;
+  text-align:center;
 }
 
 .score strong{
-    font-size:42px;
-    line-height:1;
+  font-size:42px;
+  line-height:1;
 }
 
 .score small{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-    margin-top:5px;
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:6px;
 }
 
-.health-info h2{
-    font-size:20px;
-    margin-bottom:8px;
+.health-copy h2{
+  font-size:20px;
+  margin-bottom:7px;
 }
 
-.stable{
-    color:var(--green);
-    font-size:11px;
-    font-weight:700;
-    letter-spacing:1.5px;
+.health-copy .good{
+  color:var(--green);
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
-.health-info p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.6;
-    margin-top:12px;
+.health-copy p{
+  color:#91a6ba;
+  font-size:10px;
+  line-height:1.6;
+  margin:12px 0;
 }
 
-/* VITALS */
-.vitals{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
+.btn{
+  border:1px solid rgba(72,217,255,.35);
+  background:rgba(72,217,255,.08);
+  color:var(--cyan);
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:9px;
+  font-weight:bold;
 }
 
-.vital{
-    padding:15px;
-    border:1px solid var(--line);
-    border-radius:13px;
-    background:rgba(5,12,24,.6);
+/* INDICATORS */
+
+.indicators{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
 
-.vital .icon{
-    font-size:17px;
-    margin-bottom:10px;
+.indicator{
+  padding:14px;
+  border:1px solid rgba(100,170,220,.13);
+  border-radius:12px;
+  background:rgba(3,12,22,.6);
 }
 
-.vital label{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-    letter-spacing:1px;
-    text-transform:uppercase;
+.indicator .icon{
+  font-size:17px;
+  margin-bottom:9px;
 }
 
-.vital strong{
-    display:block;
-    font-size:19px;
-    margin-top:4px;
+.indicator small{
+  display:block;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1px;
 }
 
-.vital small{
-    color:var(--green);
-    font-size:9px;
+.indicator strong{
+  display:block;
+  margin-top:5px;
+  font-size:18px;
 }
 
-/* ASTRONAUT */
-.astronaut{
-    min-height:410px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    position:relative;
+.indicator em{
+  display:block;
+  margin-top:5px;
+  font-size:8px;
+  color:var(--green);
+  font-style:normal;
 }
 
-.body-figure{
-    position:relative;
-    width:155px;
-    height:275px;
-    margin:10px auto;
+/* BODY MAP */
+
+.bodymap{
+  min-height:340px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.human{
+  position:relative;
+  width:190px;
+  height:285px;
 }
 
 .head{
-    width:72px;
-    height:72px;
-    border-radius:50%;
-    border:3px solid #b9d8ef;
-    position:absolute;
-    top:0;
-    left:41px;
-    background:radial-gradient(circle at 45% 35%,#1c3954,#07111d 65%);
-    box-shadow:0 0 30px rgba(79,220,255,.18);
-    cursor:pointer;
+  width:62px;
+  height:62px;
+  border:2px solid #86b8d9;
+  border-radius:50%;
+  position:absolute;
+  left:64px;
+  top:0;
+  box-shadow:0 0 20px rgba(72,217,255,.12);
 }
 
-.visor{
-    position:absolute;
-    width:54px;
-    height:38px;
-    left:6px;
-    top:12px;
-    border-radius:50%;
-    border:1px solid rgba(100,220,255,.7);
-    background:linear-gradient(135deg,#173d5c,#06101d);
+.neck{
+  width:20px;
+  height:18px;
+  border-left:2px solid #86b8d9;
+  border-right:2px solid #86b8d9;
+  position:absolute;
+  top:58px;
+  left:85px;
 }
 
 .torso{
-    position:absolute;
-    width:82px;
-    height:115px;
-    left:36px;
-    top:66px;
-    border:2px solid #b8d5e9;
-    border-radius:28px 28px 18px 18px;
-    background:linear-gradient(135deg,#13283b,#07101b);
-    cursor:pointer;
-}
-
-.life{
-    position:absolute;
-    left:22px;
-    top:30px;
-    width:38px;
-    height:48px;
-    border:1px solid rgba(79,220,255,.5);
-    border-radius:8px;
-    display:grid;
-    place-items:center;
-    color:var(--cyan);
-    font-size:10px;
+  width:70px;
+  height:105px;
+  border:2px solid #86b8d9;
+  border-radius:25px 25px 18px 18px;
+  position:absolute;
+  top:70px;
+  left:60px;
 }
 
 .arm{
-    position:absolute;
-    width:23px;
-    height:105px;
-    top:73px;
-    border:2px solid #9bb8cc;
-    border-radius:20px;
-    background:#0c1b2a;
-    cursor:pointer;
+  position:absolute;
+  width:22px;
+  height:105px;
+  border:2px solid #86b8d9;
+  border-radius:20px;
+  top:76px;
 }
 
-.arm.left{left:12px;transform:rotate(9deg);}
-.arm.right{right:12px;transform:rotate(-9deg);}
+.arm.left{
+  left:30px;
+  transform:rotate(7deg);
+}
+
+.arm.right{
+  right:30px;
+  transform:rotate(-7deg);
+}
 
 .leg{
-    position:absolute;
-    width:29px;
-    height:100px;
-    top:173px;
-    border:2px solid #9bb8cc;
-    border-radius:16px;
-    background:#0c1b2a;
+  position:absolute;
+  width:27px;
+  height:112px;
+  border:2px solid #86b8d9;
+  border-radius:18px;
+  top:169px;
 }
 
-.leg.left{left:42px;}
-.leg.right{right:42px;}
+.leg.left{
+  left:61px;
+}
 
-.body-note{
-    color:var(--muted);
-    font-size:9px;
-    letter-spacing:1.2px;
-    text-align:center;
-    margin-top:8px;
+.leg.right{
+  right:61px;
+}
+
+.zone{
+  position:absolute;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:rgba(72,217,255,.16);
+  border:1px solid var(--cyan);
+  box-shadow:0 0 15px rgba(72,217,255,.35);
+  z-index:3;
+  transition:.2s;
+}
+
+.zone:hover{
+  transform:scale(1.3);
+  background:rgba(72,217,255,.35);
+}
+
+.zone.heart{
+  top:100px;
+  left:83px;
+}
+
+.zone.lung{
+  top:95px;
+  left:70px;
+}
+
+.zone.brain{
+  top:20px;
+  left:83px;
+}
+
+.zone.muscle{
+  top:205px;
+  left:83px;
+}
+
+.zone-info{
+  position:absolute;
+  bottom:7px;
+  width:100%;
+  text-align:center;
+  color:var(--muted);
+  font-size:8px;
+  letter-spacing:1px;
 }
 
 /* TREND */
+
 .chart{
-    height:180px;
-    position:relative;
-    margin-top:8px;
-    border-left:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    overflow:hidden;
+  height:300px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px;
 }
 
-.gridline{
-    position:absolute;
-    left:0;
-    right:0;
-    border-top:1px dashed rgba(120,180,255,.08);
+canvas{
+  width:100%;
+  height:250px;
 }
 
-.g1{top:25%}
-.g2{top:50%}
-.g3{top:75%}
+/* ASSESSMENT */
 
-.line{
-    position:absolute;
-    inset:0;
+.assessment{
+  margin-top:14px;
 }
 
-.line svg{
-    width:100%;
-    height:100%;
+.assessment-inner{
+  padding:20px;
 }
 
-.chart-labels{
-    display:flex;
-    justify-content:space-between;
-    color:var(--muted);
-    font-size:8px;
-    margin-top:7px;
+.assessment h3{
+  font-size:13px;
+  margin-bottom:5px;
+}
+
+.assessment p{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.5;
+  margin-bottom:16px;
+}
+
+.questions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.question{
+  background:rgba(4,13,24,.7);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:12px;
+}
+
+.question label{
+  display:block;
+  color:#8ea6bb;
+  font-size:8px;
+  letter-spacing:.8px;
+  margin-bottom:8px;
+}
+
+.question input{
+  width:100%;
+  background:#06111e;
+  color:white;
+  border:1px solid rgba(100,170,220,.2);
+  border-radius:7px;
+  padding:9px;
+  outline:none;
+  font-size:11px;
+}
+
+.question input:focus{
+  border-color:var(--cyan);
+}
+
+.assess-btn{
+  margin-top:13px;
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:9px;
+  background:linear-gradient(90deg,#167da5,#3477d8);
+  color:white;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1px;
 }
 
 /* ALERT */
+
 .alert{
-    border:1px solid rgba(246,200,95,.25);
-    background:rgba(246,200,95,.05);
+  margin-top:14px;
+  border:1px solid rgba(245,200,91,.25);
+  background:linear-gradient(90deg,rgba(55,40,12,.5),rgba(7,18,30,.8));
+  border-radius:13px;
+  padding:15px 17px;
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
 }
 
-.alert .card-title b{
-    color:var(--yellow);
+.alert-title{
+  color:var(--yellow);
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:1px;
+  margin-bottom:7px;
 }
 
-.alert p{
-    color:#bdc9d8;
-    font-size:11px;
-    line-height:1.6;
+.alert-text{
+  color:#a8b9c8;
+  font-size:9px;
+  line-height:1.5;
 }
 
 .action{
-    margin-top:14px;
-    padding:11px 13px;
-    border-radius:10px;
-    background:rgba(79,220,255,.06);
-    border:1px solid rgba(79,220,255,.15);
-    color:var(--cyan);
-    font-size:10px;
+  color:var(--cyan);
+  font-size:9px;
+  white-space:nowrap;
+  align-self:center;
 }
 
-/* BUTTON */
-button{
-    border:1px solid rgba(79,220,255,.35);
-    background:linear-gradient(135deg,rgba(79,140,255,.18),rgba(79,220,255,.08));
-    color:var(--text);
-    padding:11px 16px;
-    border-radius:9px;
-    cursor:pointer;
-    font-size:10px;
-    letter-spacing:.7px;
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:20;
 }
 
-button:hover{
-    border-color:var(--cyan);
-    box-shadow:0 0 25px rgba(79,220,255,.12);
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(420px,100%);
+  background:#071321;
+  border:1px solid rgba(72,217,255,.35);
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 25px 100px rgba(0,0,0,.6);
+}
+
+.modal-box h2{
+  color:var(--cyan);
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+.modal-box p{
+  color:#9eb2c4;
+  font-size:10px;
+  line-height:1.7;
+}
+
+.close{
+  margin-top:18px;
+  width:100%;
 }
 
 /* FOOTER */
+
 footer{
-    margin-top:20px;
-    padding:15px 0 25px;
-    text-align:center;
-    color:#52657c;
-    font-size:8px;
-    letter-spacing:1px;
+  text-align:center;
+  color:#52687d;
+  font-size:8px;
+  letter-spacing:1px;
+  padding-top:28px;
 }
 
-/* RESPONSIVE */
 @media(max-width:760px){
-    .app{padding:14px;}
-    header{padding-top:10px;}
-    .brand h1{font-size:19px;}
-    .grid{grid-template-columns:1fr;}
-    .health-main{align-items:flex-start;}
-    .score-ring{
-        width:120px;
-        height:120px;
-        flex-basis:120px;
-    }
-    .score strong{font-size:34px;}
-}
+  .grid{
+    grid-template-columns:1fr;
+  }
 
-@media(max-width:430px){
-    .mission strong{font-size:10px;}
-    .health-main{gap:15px;}
-    .score-ring{
-        width:105px;
-        height:105px;
-        flex-basis:105px;
-    }
-    .score strong{font-size:30px;}
-    .health-info h2{font-size:17px;}
-    .vitals{gap:7px;}
+  .statusbar{
+    grid-template-columns:1fr;
+  }
+
+  .questions{
+    grid-template-columns:1fr;
+  }
+
+  .score-layout{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .health-copy{
+    width:100%;
+  }
+
+  .mission{
+    display:none;
+  }
+
+  .ring{
+    width:135px;
+    height:135px;
+  }
+
+  .score strong{
+    font-size:36px;
+  }
+
+  .alert{
+    flex-direction:column;
+  }
+
+  .action{
+    white-space:normal;
+  }
 }
 </style>
 </head>
@@ -510,269 +669,574 @@ footer{
 <div class="app">
 
 <header>
-    <div class="brand">
-        <div class="logo">A</div>
-        <div>
-            <h1>ASTRA</h1>
-            <p>ASTRONAUT HEALTH MONITORING</p>
-        </div>
+  <div class="brand">
+    <div class="logo">A</div>
+    <div>
+      <h1>ASTRA</h1>
+      <p>ASTRONAUT HEALTH MONITORING</p>
     </div>
+  </div>
 
-    <div class="mission">
-        <span>MISSION</span>
-        <strong>MARS TRANSIT</strong>
-    </div>
+  <div class="mission">
+    <span>MISSION ENVIRONMENT</span>
+    <strong>MARS TRANSIT</strong>
+  </div>
 </header>
 
-<div class="statusbar">
-    <div class="status-item">
-        MISSION DAY <b>47 / 210</b>
-    </div>
+<section class="statusbar">
 
-    <div class="status-item">
-        SYSTEM <b class="live">● NOMINAL</b>
-    </div>
+  <div class="status">
+    <small>MISSION DAY</small>
+    <b>47 / 210</b>
+  </div>
 
-    <div class="status-item">
-        DATA <b>SIMULATED</b>
-    </div>
-</div>
+  <div class="status">
+    <small>SYSTEM STATUS</small>
+    <b class="nominal">● NOMINAL</b>
+  </div>
 
-<div class="grid">
+  <div class="status">
+    <small>DATA MODE</small>
+    <b>SIMULATED</b>
+  </div>
+
+</section>
+
+<main class="grid">
 
 <!-- HEALTH SCORE -->
-<section class="card health-card">
 
-    <div class="card-title">
-        <span>Overall Mission Health</span>
-        <b>LIVE ASSESSMENT</b>
-    </div>
-
-    <div class="health-main">
-
-        <div class="score-ring">
-            <div class="score">
-                <strong>78</strong>
-                <small>/ 100</small>
-            </div>
-        </div>
-
-        <div class="health-info">
-            <h2>Stable</h2>
-            <div class="stable">● WITHIN MONITORING RANGE</div>
-
-            <p>
-                Current indicators remain generally stable.
-                Recovery requires continued observation.
-            </p>
-
-            <button onclick="assessHealth()">
-                ASSESS HEALTH
-            </button>
-        </div>
-
-    </div>
-</section>
-
-<!-- VITALS -->
 <section class="card">
+  <div class="card-head">
+    <span>OVERALL MISSION HEALTH</span>
+    <span class="tag">LIVE ASSESSMENT</span>
+  </div>
 
-    <div class="card-title">
-        <span>Primary Health Indicators</span>
-        <b>5 SIGNALS</b>
+  <div class="card-body">
+
+    <div class="score-layout">
+
+      <div class="ring" id="healthRing" style="--score:78%;">
+        <div class="score">
+          <strong id="healthScore">78</strong>
+          <small>/ 100</small>
+        </div>
+      </div>
+
+      <div class="health-copy">
+        <h2 id="healthState">Stable</h2>
+        <div class="good" id="healthMessage">
+          ● WITHIN MONITORING RANGE
+        </div>
+
+        <p id="healthDescription">
+          Current indicators remain generally stable.
+          Recovery requires continued observation.
+        </p>
+
+        <button class="btn" onclick="openAssessment()">
+          RUN ASSESSMENT
+        </button>
+      </div>
+
     </div>
 
-    <div class="vitals">
-
-        <div class="vital">
-            <div class="icon">♥</div>
-            <label>Heart Rate</label>
-            <strong id="hr">82 BPM</strong>
-            <small>+4% baseline</small>
-        </div>
-
-        <div class="vital">
-            <div class="icon">◈</div>
-            <label>Blood Pressure</label>
-            <strong>118/76</strong>
-            <small>Stable</small>
-        </div>
-
-        <div class="vital">
-            <div class="icon">°</div>
-            <label>Temperature</label>
-            <strong>36.7°C</strong>
-            <small>Stable</small>
-        </div>
-
-        <div class="vital">
-            <div class="icon">◒</div>
-            <label>Sleep</label>
-            <strong id="sleep">6.2 h</strong>
-            <small>Monitor recovery</small>
-        </div>
-
-    </div>
+  </div>
 </section>
 
-<!-- ASTRONAUT -->
-<section class="card astronaut">
 
-    <div class="card-title" style="width:100%">
-        <span>Human Health Map</span>
-        <b>INTERACTIVE</b>
+<!-- INDICATORS -->
+
+<section class="card">
+  <div class="card-head">
+    <span>PRIMARY HEALTH INDICATORS</span>
+    <span class="tag">5 SIGNALS</span>
+  </div>
+
+  <div class="card-body">
+
+    <div class="indicators">
+
+      <div class="indicator">
+        <div class="icon">♥</div>
+        <small>HEART RATE</small>
+        <strong id="hrValue">82 BPM</strong>
+        <em id="hrStatus">+4% baseline</em>
+      </div>
+
+      <div class="indicator">
+        <div class="icon">◈</div>
+        <small>BLOOD PRESSURE</small>
+        <strong id="bpValue">118/76</strong>
+        <em>Stable</em>
+      </div>
+
+      <div class="indicator">
+        <div class="icon">°</div>
+        <small>TEMPERATURE</small>
+        <strong id="tempValue">36.7°C</strong>
+        <em>Stable</em>
+      </div>
+
+      <div class="indicator">
+        <div class="icon">◐</div>
+        <small>SLEEP</small>
+        <strong id="sleepValue">6.2 h</strong>
+        <em>Monitor recovery</em>
+      </div>
+
     </div>
 
-    <div class="body-figure">
+  </div>
+</section>
 
-        <div class="head" onclick="showZone('Mental & Mood')">
-            <div class="visor"></div>
-        </div>
 
-        <div class="arm left" onclick="showZone('Blood Pressure')"></div>
+<!-- BODY MAP -->
 
-        <div class="torso" onclick="showZone('Cardiovascular')">
-            <div class="life">HR</div>
-        </div>
+<section class="card">
+  <div class="card-head">
+    <span>HUMAN HEALTH MAP</span>
+    <span class="tag">INTERACTIVE</span>
+  </div>
 
-        <div class="arm right" onclick="showZone('Blood Pressure')"></div>
+  <div class="card-body">
 
+    <div class="bodymap">
+
+      <div class="human">
+
+        <div class="head"></div>
+        <div class="neck"></div>
+        <div class="torso"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
         <div class="leg left"></div>
         <div class="leg right"></div>
 
+        <button class="zone brain"
+          onclick="showZone('Neural / Cognitive System','Monitor alertness, sleep quality and cognitive workload during long-duration missions.')">
+        </button>
+
+        <button class="zone heart"
+          onclick="showZone('Cardiovascular System','Heart rate and cardiovascular trends can be monitored over time to identify changes from baseline.')">
+        </button>
+
+        <button class="zone lung"
+          onclick="showZone('Respiratory System','Respiratory health can be considered alongside environmental and mission conditions.')">
+        </button>
+
+        <button class="zone muscle"
+          onclick="showZone('Musculoskeletal System','Long-duration missions can affect bone density and muscle health. Regular activity supports recovery.')">
+        </button>
+
+      </div>
+
+      <div class="zone-info">
+        TAP A BODY REGION TO INSPECT HEALTH INFORMATION
+      </div>
+
     </div>
 
-    <div class="body-note">
-        TAP A BODY REGION TO INSPECT HEALTH STATUS
-    </div>
-
+  </div>
 </section>
+
 
 <!-- TREND -->
-<section class="card">
 
-    <div class="card-title">
-        <span>Health Trend</span>
-        <b>LAST 7 DAYS</b>
-    </div>
+<section class="card">
+  <div class="card-head">
+    <span>HEALTH TREND</span>
+    <span class="tag">LAST 7 DAYS</span>
+  </div>
+
+  <div class="card-body">
 
     <div class="chart">
-
-        <div class="gridline g1"></div>
-        <div class="gridline g2"></div>
-        <div class="gridline g3"></div>
-
-        <div class="line">
-            <svg viewBox="0 0 500 180" preserveAspectRatio="none">
-
-                <defs>
-                    <linearGradient id="trend" x1="0" x2="1">
-                        <stop offset="0%" stop-color="#4fdcff"/>
-                        <stop offset="100%" stop-color="#4f8cff"/>
-                    </linearGradient>
-                </defs>
-
-                <polyline
-                    points="0,120 70,112 140,125 210,90 280,98 350,68 420,78 500,55"
-                    fill="none"
-                    stroke="url(#trend)"
-                    stroke-width="3"
-                    vector-effect="non-scaling-stroke"
-                />
-
-                <polyline
-                    points="0,120 70,112 140,125 210,90 280,98 350,68 420,78 500,55 500,180 0,180"
-                    fill="url(#trend)"
-                    opacity=".05"
-                    stroke="none"
-                />
-
-            </svg>
-        </div>
-
+      <canvas id="trendCanvas"></canvas>
     </div>
 
-    <div class="chart-labels">
-        <span>D-7</span>
-        <span>D-6</span>
-        <span>D-5</span>
-        <span>D-4</span>
-        <span>D-3</span>
-        <span>D-2</span>
-        <span>NOW</span>
-    </div>
-
+  </div>
 </section>
 
-<!-- ALERT -->
-<section class="card alert">
+</main>
 
-    <div class="card-title">
-        <span>Mission Health Alert</span>
-        <b>ATTENTION</b>
-    </div>
 
-    <p id="alertText">
-        Recent sleep duration is below the current mission
-        recovery baseline. Continued monitoring is recommended.
+<!-- ASSESSMENT -->
+
+<section class="card assessment" id="assessment">
+
+  <div class="card-head">
+    <span>ASTRA QUICK HEALTH ASSESSMENT</span>
+    <span class="tag">USER INPUT</span>
+  </div>
+
+  <div class="assessment-inner">
+
+    <h3>Enter current mission measurements</h3>
+
+    <p>
+      The values below are simulated inputs for this prototype.
+      The assessment demonstrates how astronaut health indicators
+      could be combined into a quick monitoring workflow.
     </p>
 
-    <div class="action">
-        NEXT ACTION → Complete recovery activity and reassess vitals.
+    <div class="questions">
+
+      <div class="question">
+        <label>HEART RATE (BPM)</label>
+        <input id="inputHR" type="number" value="82">
+      </div>
+
+      <div class="question">
+        <label>TEMPERATURE (°C)</label>
+        <input id="inputTemp" type="number" step="0.1" value="36.7">
+      </div>
+
+      <div class="question">
+        <label>SLEEP (HOURS)</label>
+        <input id="inputSleep" type="number" step="0.1" value="6.2">
+      </div>
+
     </div>
+
+    <button class="assess-btn" onclick="calculateHealth()">
+      ANALYZE HEALTH STATUS
+    </button>
+
+  </div>
 
 </section>
 
-</div>
+
+<!-- ALERT -->
+
+<section class="alert">
+
+  <div>
+    <div class="alert-title" id="alertTitle">
+      MISSION HEALTH ALERT
+    </div>
+
+    <div class="alert-text" id="alertText">
+      Cardiovascular: heart rate and related trends should be
+      monitored over time.
+    </div>
+  </div>
+
+  <div class="action" id="nextAction">
+    NEXT ACTION → Complete recovery activity and reassess vitals.
+  </div>
+
+</section>
+
 
 <footer>
-    ASTRA · HEALTH MONITORING PROTOTYPE · SIMULATED DATA
-    <br><br>
-    Inspired by NASA Human Research Program resources.
+  ASTRA · ASTRONAUT HEALTH MONITORING PROTOTYPE · SIMULATED DATA<br><br>
+  INSPIRED BY NASA HUMAN RESEARCH PROGRAM RESOURCES
 </footer>
 
 </div>
 
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <h2 id="modalTitle">Health Information</h2>
+
+    <p id="modalText">
+      Health information will appear here.
+    </p>
+
+    <button class="btn close" onclick="closeModal()">
+      CLOSE
+    </button>
+
+  </div>
+
+</div>
+
+
 <script>
 
-function assessHealth(){
+/* =========================
+   BODY REGION INFORMATION
+========================= */
 
-    const button = event.target;
-
-    button.textContent = "ASSESSING...";
-
-    setTimeout(() => {
-
-        button.textContent = "ASSESSMENT COMPLETE";
-
-        document.getElementById("alertText").innerHTML =
-        "Assessment complete. Current simulated indicators remain generally stable, with recovery requiring continued observation.";
-
-    },900);
+function showZone(title,text){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalText").textContent = text;
+  document.getElementById("modal").classList.add("show");
 }
 
-function showZone(zone){
-
-    const message = {
-        "Mental & Mood":
-        "Mental & Mood: monitor mood, sleep quality and behavioral changes during prolonged isolation.",
-
-        "Cardiovascular":
-        "Cardiovascular: heart rate and related trends should be monitored over time.",
-
-        "Blood Pressure":
-        "Blood Pressure: track readings against the astronaut's recent mission baseline."
-    };
-
-    document.getElementById("alertText").textContent = message[zone];
-
-    window.scrollTo({
-        top:document.body.scrollHeight,
-        behavior:"smooth"
-    });
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
 }
+
+document.getElementById("modal").addEventListener("click",function(e){
+  if(e.target === this){
+    closeModal();
+  }
+});
+
+
+/* =========================
+   ASSESSMENT
+========================= */
+
+function openAssessment(){
+  document.getElementById("assessment")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+function calculateHealth(){
+
+  const hr = Number(document.getElementById("inputHR").value);
+  const temp = Number(document.getElementById("inputTemp").value);
+  const sleep = Number(document.getElementById("inputSleep").value);
+
+  let score = 100;
+
+  /* Heart rate */
+  if(hr < 55 || hr > 100){
+    score -= 18;
+  }else if(hr < 60 || hr > 90){
+    score -= 8;
+  }
+
+  /* Temperature */
+  if(temp < 36 || temp > 37.5){
+    score -= 18;
+  }else if(temp < 36.3 || temp > 37.2){
+    score -= 7;
+  }
+
+  /* Sleep */
+  if(sleep < 5){
+    score -= 18;
+  }else if(sleep < 6){
+    score -= 10;
+  }else if(sleep < 7){
+    score -= 5;
+  }
+
+  score = Math.max(0,Math.min(100,score));
+
+  updateHealth(score,hr,temp,sleep);
+}
+
+
+function updateHealth(score,hr,temp,sleep){
+
+  document.getElementById("healthScore").textContent = score;
+
+  document.getElementById("healthRing")
+    .style.setProperty("--score",score+"%");
+
+  document.getElementById("hrValue").textContent =
+    hr + " BPM";
+
+  document.getElementById("tempValue").textContent =
+    temp.toFixed(1) + "°C";
+
+  document.getElementById("sleepValue").textContent =
+    sleep.toFixed(1) + " h";
+
+
+  let state;
+  let message;
+  let description;
+  let alert;
+  let action;
+
+  if(score >= 80){
+
+    state = "Stable";
+    message = "● WITHIN MONITORING RANGE";
+    description =
+      "Current indicators remain generally stable. Continue routine monitoring and recovery.";
+    alert =
+      "Current measurements remain within the prototype monitoring range.";
+    action =
+      "NEXT ACTION → Continue routine monitoring.";
+
+  }else if(score >= 60){
+
+    state = "Attention";
+    message = "● REQUIRES OBSERVATION";
+    description =
+      "One or more indicators suggest that the astronaut should receive additional observation and recovery time.";
+    alert =
+      "One or more health indicators require closer monitoring.";
+    action =
+      "NEXT ACTION → Complete recovery activity and reassess vitals.";
+
+  }else{
+
+    state = "High Risk";
+    message = "● ASSESSMENT FLAGGED";
+    description =
+      "The current simulated measurements indicate a condition requiring immediate assessment and mission protocol review.";
+    alert =
+      "Multiple simulated indicators are outside the preferred monitoring range.";
+    action =
+      "NEXT ACTION → Perform detailed assessment and follow mission medical protocol.";
+
+  }
+
+  document.getElementById("healthState").textContent = state;
+  document.getElementById("healthMessage").textContent = message;
+  document.getElementById("healthDescription").textContent = description;
+
+  document.getElementById("alertText").textContent = alert;
+  document.getElementById("nextAction").textContent = action;
+
+}
+
+
+/* =========================
+   TREND CHART
+========================= */
+
+const canvas = document.getElementById("trendCanvas");
+const ctx = canvas.getContext("2d");
+
+function drawChart(){
+
+  const rect = canvas.getBoundingClientRect();
+
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  ctx.scale(dpr,dpr);
+
+  const w = rect.width;
+  const h = rect.height;
+
+  const values = [68,72,66,79,76,88,84,92];
+
+  const left = 15;
+  const right = 15;
+  const top = 25;
+  const bottom = 35;
+
+  const max = 100;
+  const min = 50;
+
+  const usableW = w-left-right;
+  const usableH = h-top-bottom;
+
+  /* horizontal guides */
+
+  ctx.strokeStyle="rgba(100,180,230,.10)";
+  ctx.lineWidth=1;
+
+  for(let i=0;i<5;i++){
+
+    const y = top + i*(usableH/4);
+
+    ctx.beginPath();
+    ctx.moveTo(left,y);
+    ctx.lineTo(w-right,y);
+    ctx.stroke();
+
+  }
+
+  /* labels */
+
+  ctx.fillStyle="#60788f";
+  ctx.font="8px Arial";
+
+  ["D-7","D-6","D-5","D-4","D-3","D-2","D-1","NOW"]
+  .forEach((label,i)=>{
+
+    const x = left + i*(usableW/(values.length-1));
+
+    ctx.fillText(
+      label,
+      x-9,
+      h-10
+    );
+
+  });
+
+
+  /* gradient */
+
+  const gradient =
+    ctx.createLinearGradient(0,0,w,0);
+
+  gradient.addColorStop(0,"#42d9ff");
+  gradient.addColorStop(1,"#4c8cff");
+
+  ctx.strokeStyle=gradient;
+  ctx.lineWidth=3;
+  ctx.lineJoin="round";
+  ctx.lineCap="round";
+
+  ctx.beginPath();
+
+  values.forEach((value,i)=>{
+
+    const x =
+      left + i*(usableW/(values.length-1));
+
+    const y =
+      top + (max-value)/(max-min)*usableH;
+
+    if(i===0){
+      ctx.moveTo(x,y);
+    }else{
+      ctx.lineTo(x,y);
+    }
+
+  });
+
+  ctx.stroke();
+
+
+  /* points */
+
+  values.forEach((value,i)=>{
+
+    const x =
+      left + i*(usableW/(values.length-1));
+
+    const y =
+      top + (max-value)/(max-min)*usableH;
+
+    ctx.beginPath();
+
+    ctx.arc(x,y,4,0,Math.PI*2);
+
+    ctx.fillStyle="#071321";
+    ctx.fill();
+
+    ctx.strokeStyle="#4ed9ff";
+    ctx.lineWidth=2;
+
+    ctx.stroke();
+
+  });
+
+}
+
+window.addEventListener("resize",drawChart);
+
+drawChart();
+
+
+/* =========================
+   INITIAL STATE
+========================= */
+
+updateHealth(78,82,36.7,6.2);
 
 </script>
 
 </body>
-  </html>
+</html>
